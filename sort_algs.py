@@ -56,14 +56,15 @@ def insertion_sort(arr):
             arr[j+1] = arr[j]
             j -= 1
         arr[j+1] = value
+    return arr
 
 
 
-# print(a)
-# print(bubble_sort(a))
-# print(a)
+print(a)
+print(insertion_sort(a))
+print(a)
 
 # selection_sort(a)
 # bubble_sort(a)
 # recursive_bubble_sort(a)
-insertion_sort(a)
+# insertion_sort(a)
