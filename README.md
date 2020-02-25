@@ -1,0 +1,1 @@
+A personal project for learning/implementing search algorithms and data analytics problems while learning python.

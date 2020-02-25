@@ -60,9 +60,9 @@ def insertion_sort(arr):
 
 
 
-print(a)
-print(insertion_sort(a))
-print(a)
+# print(a)
+# print(insertion_sort(a))
+# print(a)
 
 # selection_sort(a)
 # bubble_sort(a)
