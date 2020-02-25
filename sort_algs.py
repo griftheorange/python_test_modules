@@ -58,13 +58,28 @@ def insertion_sort(arr):
         arr[j+1] = value
     return arr
 
+def recursive_insertion_sort(arr, n):
+    if (n <= 1):
+        return
+   
+    recursive_insertion_sort(arr, n-1)
+    
+    last = arr[n-1]
+    j = n-2
+
+    while (j>=0 and arr[j]>last):
+        arr[j+1] = arr[j]
+        j = j - 1
+    arr[j+1]=last
+    print(arr)
 
 
 # print(a)
-# print(insertion_sort(a))
+# print(recursive_insertion_sort(a))
 # print(a)
 
 # selection_sort(a)
 # bubble_sort(a)
 # recursive_bubble_sort(a)
 # insertion_sort(a)
+recursive_insertion_sort(a, len(a))
