@@ -104,6 +104,38 @@ def merge_sort(arr):
             k+=1
 
         print(arr)
+    
+# TODO
+def iterative_merge_sort(arr):
+    return
+
+def quick_sort(arr, start, end):
+
+    def partition(arr, start, end):
+        pivot = arr[end]
+        i = start - 1
+
+        for j in range(start, end):
+            if arr[j] < pivot:
+                i+=1
+                holder = arr[j]
+                arr[j] = arr[i]
+                arr[i] = holder
+        
+        arr[end] = arr[i+1]
+        arr[i+1] = pivot
+        return i + 1
+
+    if start < end:
+        print arr[start:end+1]
+        pi = partition(arr, start, end)
+        print arr[start:end+1]
+        quick_sort(arr, start, pi - 1)
+        quick_sort(arr, pi + 1, end)
+
+# TODO
+def iterative_quick_sort(arr):
+    return
 
 # print(a)
 # print(recursive_insertion_sort(a))
@@ -114,4 +146,5 @@ def merge_sort(arr):
 # recursive_bubble_sort(a)
 # insertion_sort(a)
 # recursive_insertion_sort(a, len(a))
-merge_sort(a)
+# merge_sort(a)
+quick_sort(a, 0, len(a)-1)
