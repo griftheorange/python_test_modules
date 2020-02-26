@@ -1,4 +1,4 @@
-a = [10, 9, 2024, 23452, -43, 2, 341]
+a = [10, 9, 2024, 23452, -43, 2, 341, 3451029, -1024]
 
 def selection_sort(arr):
     if arr[0]:
@@ -137,9 +137,48 @@ def quick_sort(arr, start, end):
 def iterative_quick_sort(arr):
     return
 
-# print(a)
-# print(recursive_insertion_sort(a))
-# print(a)
+def heap_sort(arr, n, max):
+
+    def heapify(arr, n, i):
+        print("Heaping from index {}".format(i))
+        largest = i
+        l = 2*i + 1
+        r = 2*i + 2
+    
+        print(arr)
+        # Comment in to track indices of left and right children for each run
+        # print(i)
+        # print(l)
+        # print(r)
+        if l < n and arr[l] > arr[largest]:
+            largest = l
+        
+        if r < n and arr[r] > arr[largest]:
+            largest = r
+        
+        if largest != i:
+            # Comment in to see swaps in action
+            # print("Swapping {} with {}".format(arr[i], arr[largest]))
+            holder = arr[largest]
+            arr[largest] = arr[i]
+            arr[i] = holder
+            heapify(arr, n, largest)
+
+    # build heap
+    print("Building Heap")
+    for i in reversed(range(0, n/2)):
+        heapify(arr, n, i)
+
+    print("Reducing Heap, then re-building")
+    # Extract Elems one by one
+    for i in reversed(range(0, n)):
+        holder = arr[0]
+        arr[0] = arr[i]
+        arr[i] = holder
+        heapify(arr, i, 0)
+
+    print("Final array")
+    print(arr)
 
 # selection_sort(a)
 # bubble_sort(a)
@@ -147,4 +186,5 @@ def iterative_quick_sort(arr):
 # insertion_sort(a)
 # recursive_insertion_sort(a, len(a))
 # merge_sort(a)
-quick_sort(a, 0, len(a)-1)
+# quick_sort(a, 0, len(a)-1)
+# heap_sort(a, len(a), max(a))
