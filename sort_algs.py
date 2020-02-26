@@ -1,4 +1,6 @@
-a = [10, 9, 2024, 23452, -43, 2, 341, 3451029, -1024]
+a = [10, 9, 2, 2024, 23452, -43, 2, 3451029, 341, -1024]
+
+
 
 def selection_sort(arr):
     if arr[0]:
@@ -137,6 +139,9 @@ def quick_sort(arr, start, end):
 def iterative_quick_sort(arr):
     return
 
+# Heap sort reference below for visualizing
+# Heap sort is much easier to understand with a mental image of what's going on
+# https://www.youtube.com/watch?v=MtQL_ll5KhQ
 def heap_sort(arr, n, max):
 
     def heapify(arr, n, i):
@@ -180,6 +185,28 @@ def heap_sort(arr, n, max):
     print("Final array")
     print(arr)
 
+def counting_sort(arr):
+    maxVal = max(arr)
+    minVal = min(arr)
+    adjuster = 0 - minVal
+    newArr = [0]*(maxVal+1+adjuster)
+
+    for i in range(0, len(arr)):
+        newArr[arr[i]+adjuster] += 1
+    
+    for i in range(1, len(newArr)):
+        newArr[i] += newArr[i-1]
+    
+    #new Array needed as original must be intact to reference until re-filling is complete
+    finalArr = [None]*len(arr)
+    for i in range(0, len(arr)):
+        finalArr[newArr[arr[i]+adjuster]-1] = arr[i]
+        newArr[arr[i]+adjuster] -= 1
+
+    return finalArr
+
+# def radix sort
+
 # selection_sort(a)
 # bubble_sort(a)
 # recursive_bubble_sort(a)
@@ -188,3 +215,4 @@ def heap_sort(arr, n, max):
 # merge_sort(a)
 # quick_sort(a, 0, len(a)-1)
 # heap_sort(a, len(a), max(a))
+# counting_sort(a)
