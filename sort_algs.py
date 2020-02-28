@@ -1,4 +1,4 @@
-a = [10, 9, 2, 2024, 23452, -43, 2, 3451029, 341, -1024]
+a = [10, 9, 2, -192950, 2024, 23452, -43, 2, 3451029, 341, -1024]
 
 
 
@@ -129,9 +129,9 @@ def quick_sort(arr, start, end):
         return i + 1
 
     if start < end:
-        print arr[start:end+1]
+        print(arr[start:end+1])
         pi = partition(arr, start, end)
-        print arr[start:end+1]
+        print(arr[start:end+1])
         quick_sort(arr, start, pi - 1)
         quick_sort(arr, pi + 1, end)
 
@@ -205,7 +205,55 @@ def counting_sort(arr):
 
     return finalArr
 
-# def radix sort
+def radix_sort(arr):
+    def radix_count_sort_subroutine(arr, place):
+        n = len(arr)
+        newArr = [0] * n
+        count = [0] * 10
+
+        for i in range(0, n):
+            index = (arr[i]/place)
+            count[(index)%10] += 1
+        
+        for i in range(1, 10):
+            count[i] += count[i-1]
+        
+        i = n-1
+        while i >= 0:
+            index = (arr[i]/place)
+            newArr[count[(index)%10]-1] = arr[i]
+            count[(index)%10] -= 1
+            i -= 1
+        
+        i = 0
+        for i in range(0, n):
+            arr[i] = newArr[i]
+    
+    maxVal = max(arr)
+
+    place = 1
+    print(arr)
+    while maxVal/place > 0:
+        radix_count_sort_subroutine(arr, place)
+        print(arr)
+        place *= 10
+    
+    # moves all negative values to the front of the array
+    for i in range(0, len(arr)):
+        if arr[i] < 0:
+            negs = arr[i:]
+            pos = arr[0:i]
+            break
+    if negs:
+        index = 0
+        for i in range(0, len(negs)):
+            arr[index] = negs[i]
+            index += 1
+        for i in range(0, len(pos)):
+            arr[index] = pos[i]
+            index += 1
+
+
 
 # selection_sort(a)
 # bubble_sort(a)
@@ -216,3 +264,8 @@ def counting_sort(arr):
 # quick_sort(a, 0, len(a)-1)
 # heap_sort(a, len(a), max(a))
 # counting_sort(a)
+radix_sort(a)
+print(a)
+
+
+#Fortwood Texas 
