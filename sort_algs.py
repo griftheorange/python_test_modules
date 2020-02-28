@@ -205,6 +205,7 @@ def counting_sort(arr):
 
     return finalArr
 
+# Sorts properly even with negatives, but breaks if max value in array is not positive, needs adjusting
 def radix_sort(arr):
     def radix_count_sort_subroutine(arr, place):
         n = len(arr)
