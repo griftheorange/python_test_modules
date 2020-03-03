@@ -366,6 +366,6 @@ def shell_sort(arr):
 # counting_sort(a)
 # radix_sort(a)
 # bucket_sort(b)
-shell_sort(a)
+# shell_sort(a)
 
 #Fortwood Texas 
