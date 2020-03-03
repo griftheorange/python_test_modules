@@ -336,8 +336,25 @@ def bucket_sort(arr):
             arr[k] = bucketArr[i][j]
             k += 1
 
+def shell_sort(arr):
 
+    n = len(arr)
+    gap = n//2
 
+    while gap > 0:
+
+        for i in range(gap, n):
+            temp = arr[i]
+
+            j = i
+            while j>=gap and arr[j-gap] > temp:
+                arr[j] = arr[j-gap]
+                j-= gap
+            
+            arr[j] = temp
+        
+        gap //= 2
+ 
 # selection_sort(a)
 # bubble_sort(a)
 # recursive_bubble_sort(a)
@@ -348,7 +365,7 @@ def bucket_sort(arr):
 # heap_sort(a, len(a), max(a))
 # counting_sort(a)
 # radix_sort(a)
-bucket_sort(b)
-print(b)
+# bucket_sort(b)
+shell_sort(a)
 
 #Fortwood Texas 
