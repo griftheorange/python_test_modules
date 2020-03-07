@@ -1,5 +1,6 @@
 a = [10, 9, 2, -192950, 2024, 23452, -43, 2, 3451029, 341, -1024]
 b = [1.3554635246, 1.35213475635241, 1.132412756435, 1.2345768574632, 1.1456787654, 1.56372434565342, 1.1234568763524, 1.23456787654, 1.43453476352, 1.0456746354]
+c = [9, 2930241, 210, 1034, 1, 53]
 
 # iterates through array and finds the min/max value
 # at the end of iteration, swaps the min/max value to the end of the array
@@ -172,6 +173,8 @@ def quick_sort(arr, start, end):
         #return index of the pivot to produce new sub-arrays for recursion
         return i + 1
 
+    # calls partition to organize array into lower and higher halves
+    # then recursively calls quick_sort function with each flanking half
     if start < end:
         print(arr[start:end+1])
         pi = partition(arr, start, end)
@@ -190,6 +193,7 @@ def iterative_quick_sort(arr):
 # Removes top (root) value
 # Re-heaps until fully sorted
 def heap_sort(arr, n, max):
+
 
     def heapify(arr, n, i):
         print("Heaping from index {}".format(i))
@@ -232,40 +236,62 @@ def heap_sort(arr, n, max):
     print("Final array")
     print(arr)
 
+# counting sort first finds the max value in an array, then makes an array with a number of slots equal to that value
+# It fills all indeces with 0's, then iterates through origional, incrementing by 1 at the index of the value
+# It iterates through the counting array where every index is now the previous index plus it's origional value
+# After this, the values in each counting array index represent there place in the sorted array
+# We iterate through the origional array, go to the index of the value in the count array, based on the value of the count array at the target index, we place that value in the new "place", then decrement that indexes value by one.
+# https://www.youtube.com/watch?v=7zuGmKfUt7s This video explains it very well with visual aid
+# ALSO, this implementation does not work with positive values, if negatives are present in the array, adjustments need to be made using an
+# adjuster value to properly represent the range of values in the array
 def counting_sort(arr):
+    # make an array with indeces for all values 0 - array max
     maxVal = max(arr)
-    minVal = min(arr)
-    adjuster = 0 - minVal
-    newArr = [0]*(maxVal+1+adjuster)
+    newArr = [0]*(maxVal+1)
 
+    #for each value in array, increment the value at it's corresponding index by 1
     for i in range(0, len(arr)):
-        newArr[arr[i]+adjuster] += 1
+        newArr[arr[i]] += 1
     
+    # iterate through count array and make all indeces equal to themselves plus the previous index
     for i in range(1, len(newArr)):
         newArr[i] += newArr[i-1]
     
-    #new Array needed as original must be intact to reference until re-filling is complete
+    #new Array needed for as original must be intact to reference until re-filling is complete
     finalArr = [None]*len(arr)
     for i in range(0, len(arr)):
-        finalArr[newArr[arr[i]+adjuster]-1] = arr[i]
-        newArr[arr[i]+adjuster] -= 1
+        # for each value in original array, the value ar it's corresponding index in the count array is it's 'place' in the final sorted array
+        finalArr[newArr[arr[i]]-1] = arr[i]
+        # Once placed, decrement the count array value by one
+        newArr[arr[i]] -= 1
 
-    return finalArr
+    # replace origional array values with sorted final array values
+    for i in range(0, len(arr)):
+        arr[i] = finalArr[i]
 
+# Radix sort runs a counting sort several times one digit at a time, starting at the least significant digit(ones) up to the most significant
+# Counting sort drops in performance compared to other sorting algs when the max value of an array approaches it's length^2
 # Sorts properly even with negatives, but breaks if max value in array is not positive, needs adjusting
 def radix_sort(arr):
+
+    # runs the counting sort subroutine for radix, being passed a place value to isolate the digit
     def radix_count_sort_subroutine(arr, place):
+        # new array of same length, count array will always be from 0 - 9
         n = len(arr)
         newArr = [0] * n
         count = [0] * 10
 
         for i in range(0, n):
+            #get the index by dividing the number by it's place, then modulo 10 the resulting value. Will give an integer for the place you've represented
             index = (arr[i]/place)
+            # increment the count array at the digit by one
             count[(index)%10] += 1
         
+        # Same as count sort, sum values
         for i in range(1, 10):
             count[i] += count[i-1]
         
+        # re-find value by getting array[i], then based on it's resulting place index, put that new pseudo-sorted value in the newArr just as in count sort
         i = n-1
         while i >= 0:
             index = (arr[i]/place)
@@ -273,6 +299,7 @@ def radix_sort(arr):
             count[(index)%10] -= 1
             i -= 1
         
+        #fills origional array with newly sorted values
         i = 0
         for i in range(0, n):
             arr[i] = newArr[i]
@@ -281,6 +308,7 @@ def radix_sort(arr):
 
     place = 1
     print(arr)
+    # Repeatedly runs radix sort incrementing place value *10, until the max valeus most significant digit is reached
     while maxVal/place > 0:
         radix_count_sort_subroutine(arr, place)
         print(arr)
@@ -302,7 +330,10 @@ def radix_sort(arr):
             index += 1
 
 #below implementation uses bucket size of 0.1, expects values > 1, < 2
+# bucket sort first divides values up into 'buckets' of value ranges, then runs insertion sort on each bucket, then concats the sorted arrays
+# bucket sort works well when you have an even spread of values across your data
 def bucket_sort(arr):
+    # standard insertion sort
     def bucket_insert_sort_subroutine(arr):
         for i in range(1, len(arr)):
             value = arr[i]
@@ -336,23 +367,30 @@ def bucket_sort(arr):
             arr[k] = bucketArr[i][j]
             k += 1
 
+# Shell sort runs an insertion sort with gaps
+# The idea is that in shell sort, some elements need to be moved far, requiring a lot of moves in insertion sort implementation
+# shell sort starts with a gap value and moves the farther values closer to their sorted positions first
 def shell_sort(arr):
 
+    # initializes gap to half of arr length
     n = len(arr)
     gap = n//2
 
+
     while gap > 0:
 
+        #Start with elements right of gap, iterate back, when encountering a value greater than element, swap two elements. Continue to next value
         for i in range(gap, n):
-            temp = arr[i]
+            holder = arr[i]
 
             j = i
-            while j>=gap and arr[j-gap] > temp:
+            while j>=gap and arr[j-gap] > holder:
                 arr[j] = arr[j-gap]
                 j-= gap
             
-            arr[j] = temp
+            arr[j] = holder
         
+        #halves gap until one, then zero
         gap //= 2
  
 # selection_sort(a)
@@ -363,9 +401,13 @@ def shell_sort(arr):
 # merge_sort(a)
 # quick_sort(a, 0, len(a)-1)
 # heap_sort(a, len(a), max(a))
-# counting_sort(a)
+# counting_sort(c)
 # radix_sort(a)
 # bucket_sort(b)
 # shell_sort(a)
+
+print(a)
+# print(b)
+# print(c)
 
 #Fortwood Texas 
