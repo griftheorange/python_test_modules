@@ -4,7 +4,7 @@ import re
 
 
 def run():
-    budget_df = loadExcelFile('resources/julia_stuff.xlsx', ['Date', 'Cost', 'Checking', 'Savings', 'Total', 'Total Income Brought In(Pre Tax, Spendings)'])
+    budget_df = loadExcelFile('resources/data.xlsx', ['Date', 'Cost', 'Checking', 'Savings', 'Total', 'Total Income Brought In(Pre Tax, Spendings)'])
     print(budget_df.filename)
     budget_df.plot(x='Date')
     plt.show()
