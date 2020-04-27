@@ -17,5 +17,6 @@ def loadExcelFile(address, colArr):
     return df 
 
 def saveAsPickle(df, address):
-    df.to_pickle(address + '/' + df.filename + ".pickle")
+    df.to_pickle(address + '/' + df.filename + ".p")
+
 run()
