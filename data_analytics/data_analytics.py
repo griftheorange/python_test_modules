@@ -1,11 +1,22 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import re
 
-budget_df = pd.read_excel("resources/data.xlsx", usecols=['Date', 'Cost', 'Checking', 'Savings', 'Total'], parse_dates=['Date'])
-# budget_df.set_index('Date',inplace=True)
-budget_df.plot(x='Date')
-plt.show()
-print(budget_df)
 
-# pd.set_option("display.max_rows", None)
-# print(budget_df[['Date']])
+def run():
+    budget_df = loadExcelFile('resources/data.xlsx', ['Date', 'Cost', 'Checking', 'Savings', 'Total', 'Total Income Brought In(Pre Tax, Spendings)'])
+    print(budget_df.filename)
+    budget_df.plot(x='Date')
+    plt.show()
+    saveAsPickle(budget_df, 'resources')
+
+def loadExcelFile(address, colArr):
+    df = pd.read_excel(address, usecols=colArr, parse_dates=['Date'])
+    filename = re.search(r"(?<=/)(\w|_)+(?=\.)", address).group()
+    df.filename = filename
+    return df 
+
+def saveAsPickle(df, address):
+    df.to_pickle(address + '/')
+
+run()
