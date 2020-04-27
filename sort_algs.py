@@ -399,7 +399,7 @@ def shell_sort(arr):
 # insertion_sort(a)
 # recursive_insertion_sort(a, len(a))
 # merge_sort(a)
-# quick_sort(a, 0, len(a)-1)
+quick_sort(a, 0, len(a)-1)
 # heap_sort(a, len(a), max(a))
 # counting_sort(c)
 # radix_sort(a)
