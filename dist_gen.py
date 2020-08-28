@@ -65,6 +65,7 @@ def combinations_tool(num, sides):
             
     # Map all the values to their respective proportion vs the total, make percentage 
     total = sum(results.values())
+    print(results)
     results = {k: float(v)/float(total)*100 for k,v in results.items()}
     binomial_results = binomialize(results)
     return [results, binomial_results, str(num)+"d"+str(sides)]
@@ -89,7 +90,22 @@ def plot_graphs(data):
     axs[1].bar(data[1].keys(), data[1].values(), 0.7, color='r')
     plt.show()
         
-
+def experiment(num, sides):
+    val = num
+    counter = 1
+    results = {}
+    for i in range(0, sides**num):
+        if counter > sides:
+            counter = 1
+            val -= (sides-1)
+        
+        if val in results.keys():
+            results[val] += 1
+        else:
+            results[val] = 1
+        counter += 1
+        val += 1
+    print(results)
 
 
 pattern = re.compile("^\d+d\d+$")
@@ -100,8 +116,7 @@ while True:
         values = list(map(lambda x: int(x), value.split("d")))
         # data = get_distribution(values[0], values[1])
         data = combinations_tool(values[0], values[1])
-        print(data[0])
-        print(data[1])
         plot_graphs(data)
+        # experiment(values[0], values[1])
 
 
