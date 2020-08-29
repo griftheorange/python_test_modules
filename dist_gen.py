@@ -30,9 +30,7 @@ def combinations_tool(num, sides):
 
     # Iterate through unique combinations
     for comb in combinations:
-        print("Combination", comb)
         sum_val = sum(comb)
-        length = len(comb)
 
         # For each combinaiton, count the number of occurrences for each number
         # This lets us track duplicates
@@ -55,7 +53,8 @@ def combinations_tool(num, sides):
 
         # num_unique_perms now represents all possible die rolls that map to this combination
         # They will always sum to the same value naturally
-        num_unique_perms = (math.factorial(length)/denominator)
+        num_unique_perms = (math.factorial(len(comb))/denominator)
+        print("Combination", comb)
         
         # Using the number of the unique terms, we can increment the result hash at the key of their sum
         if sum_val in results.keys():
